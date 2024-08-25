@@ -43,7 +43,9 @@ import com.abhi.atlysmovieapp.ui.theme.AtlysMovieAppTheme
 import coil.compose.AsyncImage
 import com.abhi.atlysmovieapp.screen.MovieDetailScreen
 import com.abhi.atlysmovieapp.screen.MovieListScreen
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
