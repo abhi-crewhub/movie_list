@@ -1,4 +1,4 @@
-package com.abhi.atlysmovieapp
+package com.abhi.atlysmovieapp.screen
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -41,23 +41,48 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.abhi.atlysmovieapp.ui.theme.AtlysMovieAppTheme
 import coil.compose.AsyncImage
-import com.abhi.atlysmovieapp.screen.MovieListScreen
 
-class MainActivity : ComponentActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        setContent {
-            AtlysMovieAppTheme {
-                Scaffold(
-                    modifier = Modifier.fillMaxSize()
-                ) { innerPadding ->
-                    MovieListScreen(
-                        modifier = Modifier.padding(innerPadding)
-                    )
-                }
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun MovieListScreen(modifier: Modifier = Modifier) {
+    Column(
+        modifier = modifier
+            .fillMaxSize()
+            .padding(16.dp)
+    ) {
+        val searchQuery = remember { mutableStateOf(TextFieldValue()) }
+        OutlinedTextField(
+            value = searchQuery.value,
+            onValueChange = { searchQuery.value = it },
+            modifier = Modifier
+                .fillMaxWidth(),
+            placeholder = { Text("Search Movies") },
+            leadingIcon = {
+                Icon(
+                    imageVector = Icons.Filled.Search,
+                    contentDescription = "Search Icon"
+                )
+            },
+            colors = TextFieldDefaults.outlinedTextFieldColors(
+                focusedBorderColor = MaterialTheme.colorScheme.primary,
+                unfocusedBorderColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f),
+            ),
+            singleLine = true
+        )
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        LazyVerticalGrid(
+            columns = GridCells.Fixed(2),
+            modifier = Modifier.fillMaxSize(),
+            contentPadding = PaddingValues(8.dp)
+        ) {
+            items(20) { index ->
+                MovieItem(
+                    movieName = "Movie $index",
+                    imageUrl = "https://via.placeholder.com/150"
+                )
             }
         }
     }
 }
-
