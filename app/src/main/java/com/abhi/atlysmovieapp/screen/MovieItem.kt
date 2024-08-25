@@ -13,16 +13,20 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 
 @Composable
-fun MovieItem(movieName: String, imageUrl: String) {
+fun MovieItem(movieName: String, imageUrl: String, navController: NavHostController) {
     Column(
         modifier = Modifier
             .padding(8.dp)
             .fillMaxWidth()
             .height(200.dp)
-            .clickable {}
+            .clickable {
+                // Navigate to the movie detail page
+                navController.navigate("movie_detail/${movieName.replace(" ", "_")}")
+            }
     ) {
         AsyncImage(
             model = imageUrl,

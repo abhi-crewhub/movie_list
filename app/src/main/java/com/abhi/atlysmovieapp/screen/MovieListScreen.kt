@@ -44,9 +44,9 @@ import coil.compose.AsyncImage
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MovieListScreen(modifier: Modifier = Modifier) {
+fun MovieListScreen(navController: NavHostController) {
     Column(
-        modifier = modifier
+        modifier = Modifier
             .fillMaxSize()
             .padding(16.dp)
     ) {
@@ -78,10 +78,7 @@ fun MovieListScreen(modifier: Modifier = Modifier) {
             contentPadding = PaddingValues(8.dp)
         ) {
             items(20) { index ->
-                MovieItem(
-                    movieName = "Movie $index",
-                    imageUrl = "https://via.placeholder.com/150"
-                )
+                MovieItem(movieName = "Movie $index", imageUrl = "https://via.placeholder.com/150", navController = navController)
             }
         }
     }

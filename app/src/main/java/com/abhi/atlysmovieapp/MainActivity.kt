@@ -41,6 +41,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.abhi.atlysmovieapp.ui.theme.AtlysMovieAppTheme
 import coil.compose.AsyncImage
+import com.abhi.atlysmovieapp.screen.MovieDetailScreen
 import com.abhi.atlysmovieapp.screen.MovieListScreen
 
 class MainActivity : ComponentActivity() {
@@ -49,12 +50,14 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             AtlysMovieAppTheme {
-                Scaffold(
-                    modifier = Modifier.fillMaxSize()
-                ) { innerPadding ->
-                    MovieListScreen(
-                        modifier = Modifier.padding(innerPadding)
-                    )
+                val navController = rememberNavController()
+                NavHost(navController = navController, startDestination = "movie_list") {
+                    composable("movie_list") {
+                        MovieListScreen(navController = navController)
+                    }
+                    composable("movie_detail/{movieId}") { backStackEntry ->
+                        MovieDetailScreen(movieId = backStackEntry.arguments?.getString("movieId") ?: "")
+                    }
                 }
             }
         }
