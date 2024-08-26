@@ -35,6 +35,7 @@ import androidx.compose.ui.text.style.LineHeightStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -43,6 +44,7 @@ import com.abhi.atlysmovieapp.ui.theme.AtlysMovieAppTheme
 import coil.compose.AsyncImage
 import com.abhi.atlysmovieapp.screen.MovieDetailScreen
 import com.abhi.atlysmovieapp.screen.MovieListScreen
+import com.abhi.atlysmovieapp.viewmodel.MovieViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -53,12 +55,15 @@ class MainActivity : ComponentActivity() {
         setContent {
             AtlysMovieAppTheme {
                 val navController = rememberNavController()
+                val movieViewModel: MovieViewModel = viewModel()
+
                 NavHost(navController = navController, startDestination = "movie_list") {
                     composable("movie_list") {
-                        MovieListScreen(navController = navController)
+                        MovieListScreen(navController = navController, viewModel = movieViewModel)
                     }
                     composable("movie_detail/{movieId}") { backStackEntry ->
-                        MovieDetailScreen(movieId = backStackEntry.arguments?.getString("movieId") ?: "")
+                        val movieId = backStackEntry.arguments?.getString("movieId") ?: ""
+                        MovieDetailScreen(movieId = movieId, viewModel = movieViewModel)
                     }
                 }
             }

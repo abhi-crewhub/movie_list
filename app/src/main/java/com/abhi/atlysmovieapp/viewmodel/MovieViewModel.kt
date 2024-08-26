@@ -9,7 +9,6 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
-
 @HiltViewModel
 class MovieViewModel @Inject constructor(
     private val movieRepository: MovieRepository
@@ -19,6 +18,19 @@ class MovieViewModel @Inject constructor(
 
     private val _searchQuery = MutableStateFlow("")
     val searchQuery: StateFlow<String> = _searchQuery.asStateFlow()
+
+    val movies: StateFlow<List<Movie>> = _movies
+        .combine(searchQuery) { moviesResult, query ->
+            // Filter movies based on the search query
+            if (query.isBlank()) {
+                moviesResult.getOrNull() ?: emptyList()
+            } else {
+                moviesResult.getOrNull()?.filter {
+                    it.title.contains(query, ignoreCase = true)
+                } ?: emptyList()
+            }
+        }
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
 
     private val _movieDetail = MutableStateFlow<Result<Movie?>>(Result.success(null))
     val movieDetail: StateFlow<Result<Movie?>> = _movieDetail.asStateFlow()
@@ -58,6 +70,7 @@ class MovieViewModel @Inject constructor(
         }
     }
 
+
     fun fetchMovieDetail(movieId: String) {
         viewModelScope.launch {
             val moviesList = _movies.value.getOrNull() ?: emptyList()
@@ -69,5 +82,8 @@ class MovieViewModel @Inject constructor(
             }
         }
     }
-}
 
+    fun updateSearchQuery(query: String) {
+        _searchQuery.value = query
+    }
+}

@@ -1,45 +1,47 @@
 package com.abhi.atlysmovieapp.screen
 
+
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
+import com.abhi.atlysmovieapp.model.Movie
 
 @Composable
-fun MovieItem(movieName: String, imageUrl: String, navController: NavHostController) {
+fun MovieItem(movie: Movie, navController: NavHostController) {
     Column(
         modifier = Modifier
             .padding(8.dp)
             .fillMaxWidth()
             .height(200.dp)
             .clickable {
-                // Navigate to the movie detail page
-                navController.navigate("movie_detail/${movieName.replace(" ", "_")}")
+                navController.navigate("movie_detail/${movie.id}")
             }
     ) {
         AsyncImage(
-            model = imageUrl,
-            contentDescription = movieName,
+            model = movie.poster_path,
+            contentDescription = movie.title,
             contentScale = ContentScale.Crop,
             modifier = Modifier
                 .fillMaxWidth()
                 .weight(0.8f)
         )
+        Spacer(modifier = Modifier.height(4.dp))
         Text(
-            text = movieName,
-            fontSize = 16.sp,
-            color = MaterialTheme.colorScheme.onSurface,
+            text = movie.title,
+            fontSize = 18.sp, // Increase font size
+            fontWeight = FontWeight.Bold, // Make text bold
+            maxLines = 2, // Allow up to 2 lines
+            overflow = TextOverflow.Ellipsis, // Show ellipsis if text overflows
             modifier = Modifier
                 .fillMaxWidth()
                 .weight(0.2f)
