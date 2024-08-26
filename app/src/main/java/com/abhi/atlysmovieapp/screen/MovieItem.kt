@@ -14,22 +14,22 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
-import com.abhi.atlysmovieapp.model.Movie
+import com.abhi.atlysmovieapp.model.Search
 
 @Composable
-fun MovieItem(movie: Movie, navController: NavHostController) {
+fun MovieItem(movie: Search, navController: NavHostController) {
     Column(
         modifier = Modifier
             .padding(8.dp)
             .fillMaxWidth()
             .height(200.dp)
             .clickable {
-                navController.navigate("movie_detail/${movie.id}")
+                navController.navigate("movie_detail/${movie.imdbID}")
             }
     ) {
         AsyncImage(
-            model = movie.poster_path,
-            contentDescription = movie.title,
+            model = movie.Poster,
+            contentDescription = movie.Title,
             contentScale = ContentScale.Crop,
             modifier = Modifier
                 .fillMaxWidth()
@@ -37,7 +37,7 @@ fun MovieItem(movie: Movie, navController: NavHostController) {
         )
         Spacer(modifier = Modifier.height(4.dp))
         Text(
-            text = movie.title,
+            text = movie.Title,
             fontSize = 18.sp, // Increase font size
             fontWeight = FontWeight.Bold, // Make text bold
             maxLines = 2, // Allow up to 2 lines

@@ -5,8 +5,6 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
@@ -52,8 +50,8 @@ fun MovieDetailScreen(movieId: String, viewModel: MovieViewModel) {
             else -> {
                 movieDetail.getOrNull()?.let { movie ->
                     AsyncImage(
-                        model = movie.poster_path,
-                        contentDescription = movie.title,
+                        model = movie.Poster,
+                        contentDescription = movie.Title,
                         contentScale = ContentScale.Crop,
                         modifier = Modifier
                             .fillMaxWidth()
@@ -61,12 +59,12 @@ fun MovieDetailScreen(movieId: String, viewModel: MovieViewModel) {
                     )
                     Spacer(modifier = Modifier.height(16.dp))
                     Text(
-                        text = movie.title,
+                        text = movie.Title,
                         style = MaterialTheme.typography.headlineLarge
                     )
                     Spacer(modifier = Modifier.height(8.dp))
                     Text(
-                        text = movie.overview.toString(),
+                        text = movie.Plot.toString(),
                         style = MaterialTheme.typography.bodyLarge
                     )
                 }
