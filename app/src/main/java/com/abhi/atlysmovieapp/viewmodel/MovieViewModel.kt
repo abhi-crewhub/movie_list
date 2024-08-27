@@ -4,7 +4,7 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.abhi.atlysmovieapp.model.MovieDetailsResponse
-import com.abhi.atlysmovieapp.model.Search
+import com.abhi.atlysmovieapp.model.Movie
 import com.abhi.atlysmovieapp.repository.MovieRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
@@ -15,12 +15,12 @@ class MovieViewModel @Inject constructor(
     private val movieRepository: MovieRepository
 ) : ViewModel() {
 
-    private val _movies = MutableStateFlow<Result<List<Search>>>(Result.success(emptyList()))
+    private val _movies = MutableStateFlow<Result<List<Movie>>>(Result.success(emptyList()))
 
     private val _searchQuery = MutableStateFlow("")
     val searchQuery: StateFlow<String> = _searchQuery.asStateFlow()
 
-    val movies: StateFlow<List<Search>> = _movies
+    val movies: StateFlow<List<Movie>> = _movies
         .combine(searchQuery) { moviesResult, query ->
             // Filter movies based on the search query
             if (query.isBlank()) {

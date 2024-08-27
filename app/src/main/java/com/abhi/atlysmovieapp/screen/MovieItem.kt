@@ -14,10 +14,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
-import com.abhi.atlysmovieapp.model.Search
+import com.abhi.atlysmovieapp.model.Movie
 
 @Composable
-fun MovieItem(movie: Search, navController: NavHostController) {
+fun MovieItem(movie: Movie, navController: NavHostController) {
     Column(
         modifier = Modifier
             .padding(8.dp)
